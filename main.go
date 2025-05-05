@@ -25,11 +25,17 @@ func yankCreate(w http.ResponseWriter, r *http.Request){
 	w.Write([]byte("display a form for creating an yank"))
 }
 
+func yankCreateItem(w http.ResponseWriter, r *http.Request){
+	w.WriteHeader(201)
+	w.Write([]byte("save a new yank"))
+}
+
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET	/{$}", home)
 	mux.HandleFunc("GET	/yank/view/{id}", yankView)
 	mux.HandleFunc("GET	/yank/create", yankCreate)
+	mux.HandleFunc("POST /yank/create", yankCreateItem)
 
 	log.Print("starting server on :4000")
 

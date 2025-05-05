@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"strconv"
 	"log"
 	"net/http"
 )
@@ -10,7 +12,13 @@ func home(w http.ResponseWriter, r *http.Request){
 }
 
 func yankView(w http.ResponseWriter, r *http.Request){
-	w.Write([]byte("display a specific yank"))
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil || id < 1 {
+		http.NotFound(w, r)
+		return
+	}
+	msg := fmt.Sprintf("display yank with id %d", id)
+	w.Write([]byte(msg))
 }
 
 func yankCreate(w http.ResponseWriter, r *http.Request){
@@ -19,9 +27,9 @@ func yankCreate(w http.ResponseWriter, r *http.Request){
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/yank/view", yankView)
-	mux.HandleFunc("/yank/create", yankCreate)
+	mux.HandleFunc("GET	/{$}", home)
+	mux.HandleFunc("GET	/yank/view/{id}", yankView)
+	mux.HandleFunc("GET	/yank/create", yankCreate)
 
 	log.Print("starting server on :4000")
 

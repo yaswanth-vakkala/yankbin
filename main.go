@@ -8,6 +8,7 @@ import (
 )
 
 func home(w http.ResponseWriter, r *http.Request){
+	w.Header().Add("server", "Go")
 	w.Write([]byte("Hello from yankbin"))
 }
 
@@ -26,7 +27,7 @@ func yankCreate(w http.ResponseWriter, r *http.Request){
 }
 
 func yankCreateItem(w http.ResponseWriter, r *http.Request){
-	w.WriteHeader(201)
+	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("save a new yank"))
 }
 

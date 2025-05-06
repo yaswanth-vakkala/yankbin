@@ -18,8 +18,7 @@ func yankView(w http.ResponseWriter, r *http.Request){
 		http.NotFound(w, r)
 		return
 	}
-	msg := fmt.Sprintf("display yank with id %d", id)
-	w.Write([]byte(msg))
+	fmt.Fprintf(w, "Display a specific yank with ID %d", id)
 }
 
 func yankCreate(w http.ResponseWriter, r *http.Request){
